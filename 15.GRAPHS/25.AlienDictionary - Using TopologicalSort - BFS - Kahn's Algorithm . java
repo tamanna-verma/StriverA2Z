@@ -1,0 +1,65 @@
+import java.util.*;
+public class Solution {
+    public static String getAlienLanguage(String []dictionary, int k) {
+        
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for(int i=0;i<k ;i++){
+            graph.add(new ArrayList<Integer>());
+        }
+        
+        int [] indegree= new int [k];
+
+        for(int i=0;i< dictionary.length-1;i++){
+            String curr = dictionary[i];
+            String next = dictionary[i+1];
+
+            int min = Math.min(curr.length(),next.length());
+            for(int j=0;j<min;j++){
+                char first = curr.charAt(j);
+                char second = next.charAt(j);
+                if(first != second)
+                {
+                    graph.get(first-'a').add(second-'a');
+                    indegree[second-'a']++;
+                    break;
+                }
+            }
+        }
+//to abi graph to ready hogya
+// now , we need to perform kahn's algorithm 
+// we need to have the indegree array and maintain a queue too 
+
+Queue<Integer> queue= new LinkedList<>();
+for(int i=0;i<k;i++){
+    if(indegree [i]==0)queue.add(i);
+}
+
+ArrayList<Character> ans= new ArrayList<>();
+
+while(!queue.isEmpty()){
+    int popped=queue.remove();
+    char ch = (char)('a'+popped);
+    ans.add(ch);
+    
+    for(int i=0;i<graph.get(popped).size();i++){
+        int curr = graph.get(popped).get(i);
+        indegree[curr]--;
+
+        if(indegree[curr]==0)
+        {
+            queue.add(curr);
+        }
+    }
+}
+    // return ans ;
+    StringBuilder str= new StringBuilder();
+    for(int i=0;i<ans.size();i++){
+        Character c= ans.get(i);
+        str.append(c);
+    }
+return str.toString();
+
+    }
+}
+//so we need to traverse in the dictionary 
+// we will be traversing on each word and its consecutive next word 
