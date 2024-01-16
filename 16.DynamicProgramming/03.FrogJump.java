@@ -76,3 +76,26 @@ public class Solution
    
 
 }
+
+04.Best Way - Space Optimizeed to O(1)
+    
+import java.util.Arrays;
+public class Solution 
+{
+    public static int frogJump(int n, int heights[]) {
+    int[]dp=new int[n];
+     
+      int secondprev =0;
+      int prev = Math.abs(heights[1]-heights[0]);
+     for(int i=2;i<n;i++){
+        
+        dp[i] = Math.min(prev+(Math.abs(heights[i]-heights[i-1])),secondprev+(Math.abs(heights[i]-heights[i-2])));
+        secondprev=prev;
+        prev=dp[i];
+     }
+     return prev;
+        
+    }
+   
+
+}
