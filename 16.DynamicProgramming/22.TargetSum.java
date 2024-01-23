@@ -116,7 +116,91 @@
     }
 }
 
-//  0456
+04.SPACE OPTIMISED - 2 ARRAY
 
+class Solution {
+    public int findTargetSumWays(int[] nums, int diff)
+    { 
+       int n=nums.length;
+       int total =0;
+       for(int i=0;i<n;i++){
+           total+=nums[i];
+       }
+       if(total<diff || (total-diff)%2!=0)return 0;
+       int s1= (total-diff)/2;
+      // now the number of ways where s1 is the target is the answer 
+      int dp[]=new int[s1+1];
+      dp[0]=1;
+
+      if(nums[0]==0) dp[nums[0]]=2;
+      else if(nums[0]<=s1)dp[nums[0]]=1;
+   
+
+        for(int i=1;i<n;i++){
+           int[]temp = new int [s1+1];
+         for(int j=0;j<s1+1;j++){
+         
+             int take=0;
+             if(nums[i]<=j)take=dp[j-nums[i]];
+              int nottake=dp[j];
+
+              temp[j]=take+nottake;
+         }
+         dp=temp;
+        }
+      return dp[s1];
+
+    }
+}
+
+        // (a1+a2+a3) - (b1+b2+b3) = d
+        // s1+s2=total;
+        // s1-s2=d
+        // 2s2=total-d;
+        // s2=total-d/2
+        // if(total<d)return 0;
+        // if((total-d )% 2 !=0)return 0;
+05.SPACE OPTIMIZATION - TO 1 ARRAY
+
+class Solution {
+    public int findTargetSumWays(int[] nums, int diff)
+    { 
+       int n=nums.length;
+       int total =0;
+       for(int i=0;i<n;i++){
+           total+=nums[i];
+       }
+       if(total<diff || (total-diff)%2!=0)return 0;
+       int s1= (total-diff)/2;
+      // now the number of ways where s1 is the target is the answer 
+      int dp[]=new int[s1+1];
+      dp[0]=1;
+
+    //   if(nums[0]==0) dp[nums[0]]=2;
+    //   else if(nums[0]<=s1)dp[nums[0]]=1;
+   
+
+        for(int i=0;i<n;i++){     //0 se start krskte h 
+         for(int j=s1;j>=nums[i];j--){    
+              int take=0;
+              if(nums[i]<=j)take=dp[j-nums[i]];
+              int nottake=dp[j];
+
+              dp[j]=take+nottake;
+         }
+        
+        }
+      return dp[s1];
+
+    }
+}
+
+        // (a1+a2+a3) - (b1+b2+b3) = d
+        // s1+s2=total;
+        // s1-s2=d
+        // 2s2=total-d;
+        // s2=total-d/2
+        // if(total<d)return 0;
+        // if((total-d )% 2 !=0)return 0;
 
 
