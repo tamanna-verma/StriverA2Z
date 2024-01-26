@@ -133,8 +133,9 @@ public int helper(int index1 , int index2 , String first , String second , int [
         return helper(n , n , first , second, dp);
 
     }
-public int helper(int index1 , int index2 , String first , String second , int [] dp , int[]temp){
+public int helper(int index1 , int index2 , String first , String second , int [] dp ){
        for(int i=1;i<=index1;i++){
+         int temp = new int [dp.length+1];
            for(int j=1;j<=index2;j++){
                 
                 int same=0;
