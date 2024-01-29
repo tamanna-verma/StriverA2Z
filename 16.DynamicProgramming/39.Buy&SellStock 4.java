@@ -1,3 +1,184 @@
+01.RECURSION //using 2-d DP , converting buy into trans%2 ans sell into trans%2==1
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+//for buy and sell , we will maintain transaction no. if the transaction no. is odd , then we need to buy and when its even then we need to sell 
+k=k *2;
+int trans=0;
+int ans = helper(0,trans,prices,k);
+return ans;
+    }
+  public int helper(int index ,int trans , int []prices , int k ){
+        if(index==prices.length)return 0;
+        if(trans==k)return 0;
+        
+
+         int profit =0;
+        if(trans%2==0){//buy
+           
+           int take= -1*prices[index] + helper(index+1 , trans+1 , prices , k);
+           int nottake = helper(index+1 , trans , prices , k );
+           return Math.max(take , nottake);
+        }
+        else{//sell
+            int take = prices[index]+helper(index+1 , trans+1 , prices , k);
+            int nottake = helper(index+1 , trans , prices , k);
+            return Math.max(take , nottake);
+        }
+    }
+}
+02.MEMOIZATION - TOP DOWN 
+  
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+//for buy and sell , we will maintain transaction no. if the transaction no. is odd , then we need to buy and when its even then we need to sell 
+k=k *2;
+int trans=0;
+int dp[][]=new int [prices.length][k];
+for(int i=0;i<prices.length;i++)Arrays.fill(dp[i],-1);
+int ans = helper(0,trans,prices,k, dp);
+return ans;
+    }
+  public int helper(int index ,int trans , int []prices , int k , int [][]dp){
+        if(index==prices.length)return 0;
+        if(trans==k)return 0;
+        if(dp[index][trans]!=-1)return dp[index][trans];
+
+         int profit =0;
+        if(trans%2==0){//buy
+           
+           int take= -1*prices[index] + helper(index+1 , trans+1 , prices , k,dp);
+           int nottake = helper(index+1 , trans , prices , k ,dp);
+           return dp[index][trans]=Math.max(take , nottake);
+        }
+        else{//sell
+            int take = prices[index]+helper(index+1 , trans+1 , prices , k, dp);
+            int nottake = helper(index+1 , trans , prices , k, dp);
+            return dp[index][trans]= Math.max(take , nottake);
+        }
+    }
+    
+
+}
+03.TABULATION 
+
+  class Solution {
+    public int maxProfit(int k, int[] prices) 
+    {
+//for buy and sell , we will maintain transaction no. if the transaction no. is odd , then we need to buy and when its even then we need to sell 
+k = k * 2;
+int trans=0;
+int n=prices.length;
+int dp[][]=new int [n+1][k+1];
+
+for(int i=n-1;i>=0;i--)
+{
+    for(int j=0;j<k;j++)
+    {
+    int profit =0;
+    int max=0;
+    if(j%2==0)//buy
+    {
+        int take = (-1 * prices[i] ) + dp[i + 1][j + 1];
+        int nottake = dp[i+1][j];
+         max = Math.max(take , nottake);
+       
+    }
+    else
+     {
+         int take = prices[i] + dp[i+1][j+1];
+        int nottake = dp[i+1][j];
+        max = Math.max(take , nottake);
+        
+     }
+     dp[i][j]=max;
+  }
+}
+return dp[0][0];
+    }
+}
+
+4.SPACE OPIMIZATION = T0 2 1D ARRAY
+
+  class Solution {
+    public int maxProfit(int k, int[] prices) 
+    {
+//for buy and sell , we will maintain transaction no. if the transaction no. is odd , then we need to buy and when its even then we need to sell 
+k = k * 2;
+int trans=0;
+int n=prices.length;
+int dp[]=new int [k+1];
+
+for(int i=n-1;i>=0;i--)
+{
+    int temp[]= new int [k+1];
+    for(int j=0;j<k;j++)
+    {
+    int profit =0;
+    int max=0;
+    if(j%2==0)//buy
+    {
+        int take = (-1 * prices[i] ) + dp[j + 1];
+        int nottake = dp[j];
+         max = Math.max(take , nottake);
+       
+    }
+    else
+     {
+         int take = prices[i] + dp[j+1];
+        int nottake = dp[j];
+        max = Math.max(take , nottake);
+        
+     }
+     temp[j]=max;
+  }
+  dp=temp;
+}
+return dp[0];
+    }
+}
+
+5.SPACE OPTIMIZATION - TO 1-D ARRAY 
+  
+class Solution {
+  public int maxProfit(int k, int[] prices) 
+  {
+//for buy and sell , we will maintain transaction no. if the transaction no. is odd , then we need to buy and when its even then we need to sell 
+k = k * 2;
+int trans=0;
+int n=prices.length;
+int dp[]=new int [k+1];
+
+for(int i=n-1;i>=0;i--)
+{
+  
+    for(int j=0;j<k;j++)
+    {
+    int profit =0;
+    int max=0;
+    if(j%2==0)//buy
+    {
+        int take = (-1 * prices[i] ) + dp[j + 1];
+        int nottake = dp[j];
+         max = Math.max(take , nottake);
+       
+    }
+    else
+     {
+         int take = prices[i] + dp[j+1];
+        int nottake = dp[j];
+        max = Math.max(take , nottake);
+        
+     }
+    dp[j]=max;
+  }
+ 
+}
+return dp[0];
+    }
+}
+
+
+//USING 3-D DP
 01.RECURSION
 
   class Solution {
@@ -68,6 +249,6 @@
     }
 
 }
-03.TABULATION
+
 
   
